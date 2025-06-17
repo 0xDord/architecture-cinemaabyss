@@ -108,7 +108,7 @@ services:
     depends_on:
       - monolith
       - movies-service
-      - events-service
+#      - events-service
     ports:
       - "8000:8000"
     environment:
