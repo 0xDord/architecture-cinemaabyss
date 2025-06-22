@@ -12,10 +12,10 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  MONOLITH_IMAGE_NAME: ${{ toLower(github.repository) }}/monolith
-  MOVIES_SERVICE_IMAGE_NAME: ${{ toLower(github.repository) }}/movies-service
-  EVENTS_SERVICE_IMAGE_NAME: ${{ toLower(github.repository) }}/events-service
-  PROXY_SERVICE_IMAGE_NAME: ${{ toLower(github.repository) }}/proxy-service
+  MONOLITH_IMAGE_NAME: 0xdord/architecture-cinemaabyss/monolith
+  MOVIES_SERVICE_IMAGE_NAME: 0xdord/architecture-cinemaabyss/movies-service
+  EVENTS_SERVICE_IMAGE_NAME: 0xdord/architecture-cinemaabyss/events-service
+  PROXY_SERVICE_IMAGE_NAME: 0xdord/architecture-cinemaabyss/proxy-service
 
 jobs:
   build-and-push:
