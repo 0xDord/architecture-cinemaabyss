@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: events-service
-          image: ghcr.io/0xDord/architecture-cinemaabyss/events-service:latest
+          image: ghcr.io/0xdord/architecture-cinemaabyss/events-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8082
