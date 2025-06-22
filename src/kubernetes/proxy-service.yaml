@@ -25,7 +25,7 @@ spec:
           image: ghcr.io/0xDord/architecture-cinemaabyss/proxy-service:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8082
+            - containerPort: 8000
           env:
             - name: PORT
               value: "8000"
