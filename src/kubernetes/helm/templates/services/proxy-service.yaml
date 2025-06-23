@@ -26,30 +26,29 @@ spec:
       containers:
       - name: proxy-service
         image: {{ .Values.proxyService.image.repository }}:{{ .Values.proxyService.image.tag }}
-        imagePullPolicy: { { .Values.proxyService.image.pullPolicy } }
+        imagePullPolicy: {{ .Values.proxyService.image.pullPolicy }}
         ports:
-        - containerPort: { { .Values.proxyService.service.targetPort } }
+        - containerPort: {{ .Values.proxyService.service.targetPort }}
         env:
         - name: PORT
           value: "{{ .Values.proxyService.service.targetPort }}"
-#        TODO: add envs
         envFrom:
         - configMapRef:
             name: cinemaabyss-config
         - secretRef:
             name: cinemaabyss-secrets
         resources:
-          { { - toYaml .Values.proxyService.resources | nindent 10 } }
+          {{- toYaml .Values.proxyService.resources | nindent 10 }}
         readinessProbe:
           httpGet:
             path: /health
-            port: { { .Values.proxyService.service.targetPort } }
+            port: {{ .Values.proxyService.service.targetPort }}
           initialDelaySeconds: 5
           periodSeconds: 10
         livenessProbe:
           httpGet:
             path: /health
-            port: { { .Values.proxyService.service.targetPort } }
+            port: {{ .Values.proxyService.service.targetPort }}
           initialDelaySeconds: 15
           periodSeconds: 20
       restartPolicy: Always

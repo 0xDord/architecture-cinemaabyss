@@ -5,7 +5,7 @@ global:
 
 # Image pull secrets
 imagePullSecrets:
-  dockerconfigjson: ewoJImF1dGhzIjogewoJCSJnaGNyLmlvIjogewoJCQkiYXV0aCI6
+  dockerconfigjson: ewoJImF1dGhzIjogewoJICAiZ2hjci5pbyI6IHsKICAgICAgCSAgICAiYXV0aCI6ICJNSGhFYjNKa09tZG9jRjlPVW1ZemRHVmxNR1Z1Y25oM2NERnBkbFpxZUdoUVkyTldiR0UwTVRNME9GSjRUbFE9IiAKICAgIAkgIH0KCX0sCgkiY3JlZHNTdG9yZSI6ICJkZXNrdG9wIiwKCSJjdXJyZW50Q29udGV4dCI6ICJkZXNrdG9wLWxpbnV4Igp9Cg==
 # Database configuration
 database:
   host: postgres
@@ -173,6 +173,10 @@ ingress:
           pathType: Prefix
           service: proxy-service
           port: 80
+        - path: /api/movies
+          pathType: Prefix
+          service: movies-service
+          port: 8081
         - path: /api/events
           pathType: Prefix
           service: events-service
