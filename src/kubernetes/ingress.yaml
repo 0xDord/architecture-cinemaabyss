@@ -11,11 +11,32 @@ spec:
     - host: cinemaabyss.example.com
       http:
         paths:
-          - path: /users
+          - path: /api/users
             pathType: Prefix
             backend:
               service:
-                name: proxy-service
+                name: monolith
+                port:
+                  number: 8080
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: monolith
+                port:
+                  number: 8080
+          - path: /api/payments
+            pathType: Prefix
+            backend:
+              service:
+                name: monolith
+                port:
+                  number: 8080
+          - path: /api/subscriptions
+            pathType: Prefix
+            backend:
+              service:
+                name: monolith
                 port:
                   number: 8080
           - path: /api/movies
