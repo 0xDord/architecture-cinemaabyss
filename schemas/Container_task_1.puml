@@ -1,0 +1,71 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_TOP_DOWN()
+
+Person(user, "Пользователь", "Использует приложение КиноБездна")
+
+System_Boundary(c1, "КиноБездна") {
+
+  ' ==== API Layer ====
+  System_Boundary(apiLayer, "API Layer") {
+    Container(apiGateway, "API Gateway", "Node.js / NGINX", "Единая точка входа для клиентов (REST/gRPC)")
+  }
+
+  ' ==== User Domain ====
+  System_Boundary(userDomain, "User Domain") {
+    Container(userService, "User Service", "Go", "Управление пользователями")
+    ContainerDb(userDb, "User DB", "PostgreSQL", "Хранение данных пользователей")
+  }
+
+  ' ==== Movie Domain ====
+  System_Boundary(movieDomain, "Movie Domain") {
+    Container(movieService, "Movie Service", "Go", "Обработка и предоставление метаданных фильмов")
+    ContainerDb(movieDb, "Movie DB", "PostgreSQL", "Хранение метаданных фильмов")
+  }
+
+  ' ==== Payment Domain ====
+  System_Boundary(paymentDomain, "Payment Domain") {
+    Container(paymentService, "Payment Service", "Go", "Обработка платежей пользователей")
+    ContainerDb(paymentDb, "Payment DB", "PostgreSQL", "Хранение информации о платежах")
+  }
+
+  ' ==== Subscription Domain ====
+  System_Boundary(subscriptionDomain, "Subscription Domain") {
+    Container(subscriptionService, "Subscription Service", "Go", "Управление подписками и планами")
+    ContainerDb(subscriptionDb, "Subscription DB", "PostgreSQL", "Хранение данных о подписках")
+  }
+
+  ' ==== Event Processing ====
+  System_Boundary(eventing, "Event Processing") {
+    Container(messageBroker, "Message Broker", "Kafka", "Передача событий между сервисами")
+    Container(eventService, "Event Service", "Go", "Обрабатывает события (Kafka): регистрации, оплаты, оценки фильмов и др.")
+  }
+
+  ' ==== Взаимодействия пользователя и API ====
+  user -> apiGateway : Использует REST API (REST (JSON))
+
+  apiGateway -> userService : Операции с пользователями (REST (JSON))
+  apiGateway -> movieService : Получение / создание новых  фильмов (REST (JSON))
+  apiGateway -> paymentService : Платежи (REST (JSON))
+  apiGateway -> subscriptionService : Подписки (REST (JSON))
+
+  ' ==== Сервисы → базы данных ====
+  userService -> userDb : R/W
+  movieService -> movieDb : R/W
+  paymentService -> paymentDb : R/W
+  subscriptionService -> subscriptionDb : R/W
+
+  ' ==== Публикация событий ====
+  userService -> messageBroker : Публикует: регистрация, вход (JSON [TCP])
+  movieService -> messageBroker : Публикует: просмотр, оценка, добавление (JSON [TCP])
+  paymentService -> messageBroker : Публикует: платёж (успешный/неудачный) (JSON [TCP])
+
+  ' ==== Event Service подписан и реагирует ====
+  messageBroker -> eventService : Получает события (JSON [TCP])
+
+  eventService -> subscriptionService : Событие обработки оплаты для включения подписки (JSON [TCP])
+
+}
+
+@enduml

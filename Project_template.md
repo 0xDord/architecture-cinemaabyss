@@ -5,7 +5,8 @@
 1. Спроектируйте to be архитектуру КиноБездны, разделив всю систему на отдельные домены и организовав интеграционное взаимодействие и единую точку вызова сервисов.
 Результат представьте в виде контейнерной диаграммы в нотации С4.
 Добавьте ссылку на файл в этот шаблон
-[ссылка на файл](ссылка)
+
+[Диаграмма контейнеров](schemas/Container_task_1.puml)
 
 # Задание 2
 
@@ -59,6 +60,9 @@
 Необходимые тесты для проверки этого API вызываются при запуске npm run test:local из папки tests/postman 
 Приложите скриншот тестов и скриншот состояния топиков Kafka из UI http://localhost:8090 
 
+![test_results.png](tests/postman/screenshots/test_results.png)
+![topics_state.png](tests/postman/screenshots/topics_state.png)
+
 # Задание 3
 
 Команда начала переезд в Kubernetes для лучшего масштабирования и повышения надежности. 
@@ -109,6 +113,7 @@ jobs:
 Как только сборка отработает и в github registry появятся ваши образы, можно переходить к блоку настройки Kubernetes
 Успешным результатом данного шага является "зеленая" сборка и "зеленые" тесты
 
+![github_actions_build_and_tests_passed.png](tests/postman/screenshots/github_actions_build_and_tests_passed.png)
 
 ### Proxy в Kubernetes
 
@@ -275,6 +280,9 @@ cat .docker/config.json | base64
 #### Шаг 3
 Добавьте сюда скриншота вывода при вызове https://cinemaabyss.example.com/api/movies и  скриншот вывода event-service после вызова тестов.
 
+![cinemaabyss_movies_logs.png](tests/postman/screenshots/cinemaabyss_movies_logs.png)
+![events_service_logs_after_test.png](tests/postman/screenshots/events_service_logs_after_test.png)
+![test_with_ingress.png](tests/postman/screenshots/test_with_ingress.png)
 
 # Задание 4
 Для простоты дальнейшего обновления и развертывания вам как архитектуру необходимо так же реализовать helm-чарты для прокси-сервиса и проверить работу 
@@ -332,7 +340,7 @@ kubectl delete  namespace cinemaabyss
 ```
 Запустите 
 ```bash
-helm install cinemaabyss .\src\kubernetes\helm --namespace cinemaabyss --create-namespace
+helm install cinemaabyss ./src/kubernetes/helm --namespace cinemaabyss --create-namespace
 ```
 Если в процессе будет ошибка
 ```code
@@ -349,6 +357,9 @@ minikube tunnel
 Потом вызовите 
 https://cinemaabyss.example.com/api/movies
 и приложите скриншот развертывания helm и вывода https://cinemaabyss.example.com/api/movies
+
+![helm_namespace_created.png](tests/postman/screenshots/helm_namespace_created.png)
+![movies_request_helm.png](tests/postman/screenshots/movies_request_helm.png)
 
 ## Удаляем все
 
